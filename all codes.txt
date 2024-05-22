@@ -1,0 +1,2832 @@
+1.	 Implement a program to manage a list of students using the Iterator interface in Java. The program should allow the user to perform the following operations:
+Add a student to the list.
+Remove a student from the list.
+Display all students in the list.
+Replace the grade of any student 
+Each student should have attributes like name, roll number, and grade. Implement a Student class to represent a student, and a StudentManager class to manage the list of students using iterators.
+//iterator interace
+import java.util.*;
+class student{
+    int rollno;
+    String name;//S of string is capital
+    String grade;
+    student(int rollno,String name,String  grade){
+        this.rollno=rollno;
+        this.name=name;
+        this.grade=grade;
+    }
+
+    String getname(){//mention the return datatype of method 
+        return name;
+    }
+
+   String getgrade(){
+        return grade;
+    }
+
+    int getrollno(){
+        return rollno;
+    }
+
+    void setgrade(String grade){// setter has void datatype
+        this.grade=grade;
+    }
+        @Override
+    public String toString() {
+    return "Roll No: " + rollno + ", Name: " + name + ", Grade: " + grade;
+    
+}
+}
+
+class studentmanager{
+    List<student> students=new ArrayList<>();//L of list is capital and A of array
+    void addstudent(student stud){
+        students.add(stud);//adding the input  object in students list
+    }
+    void removestudent(int rollno){
+        Iterator<student> iterator=students.iterator();//creating a iterator for students list 
+        while(iterator.hasNext()){
+            student stud=iterator.next();//creating a reference variable  for each next object 
+            if(stud.getrollno()==rollno){//use getter to get rollno
+                iterator.remove();//removing that object
+                System.out.println("removed");
+            }
+        }
+    }
+    void display(){
+        for(student stud:students){
+            System.out.println(stud);
+        }
+    }
+    void replacegrade(int rollno,String newgrade){
+        for(student stud:students){
+            if(stud.getrollno()==rollno){
+                stud.setgrade(newgrade);
+                System.out.println("grade set");
+            }
+        }
+    }
+
+}
+
+public class IteratorInterface{
+    public static void main(String[] args){
+        studentmanager studlist=new studentmanager();
+        Scanner scanner=new Scanner(System.in);
+        while (true) {
+            System.out.println("\nMenu:");
+            System.out.println("1. Add Student");
+            System.out.println("2. Remove Student");
+            System.out.println("3. Display All Students");
+            System.out.println("4. Replace Grade");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+
+        int choice=scanner.nextInt();//I of int in nextInt is capital
+        scanner.nextLine();
+
+        switch (choice) {
+            case 1:
+            System.out.print("Enter name: ");
+            String name = scanner.nextLine();
+            System.out.print("Enter roll number: ");
+            int rollNumber = scanner.nextInt();
+            scanner.nextLine(); 
+            System.out.print("Enter grade: ");
+            String grade = scanner.nextLine();
+            student stud=new student(rollNumber, name, grade);
+            studlist.addstudent(stud);
+
+                break;
+            case 2:
+            System.out.print("Enter roll number of student to remove: ");
+                    rollNumber = scanner.nextInt();
+                    studlist.removestudent(rollNumber);
+
+        case 3:
+        studlist.display();
+        break;
+
+        case 4:
+        System.out.print("Enter roll number of student to replace grade: ");
+        rollNumber = scanner.nextInt();
+        scanner.nextLine(); 
+        System.out.print("Enter new grade: ");
+        grade = scanner.nextLine();
+        studlist.replacegrade(rollNumber, grade);
+        break;
+
+        case 5:
+        scanner.close();
+        return;
+
+            default:
+            System.out.println("wrong choice");
+                break;
+        }
+        }
+
+    }
+}
+
+2.	Write a Java program to manage employees in a company. The company has different types of employees, including full-time employees and part-time employees.  Each employee has a name, employee ID, and hourly rate.
+Full-time employees have additional attributes such as salary and benefits, (Use super keyword) 
+while part-time employees have attributes for the number of hours worked and overtime rate.  (Use super keyword)
+Your task is to implement a Java program using inheritance to represent these different types of employees and their attributes. Additionally, the program should provide functionality to calculate the monthly salary for each type of employee.
+//Inheritance
+
+import java.util.*;
+class Employee{
+    int id;
+    String name;
+    int rate;
+    Employee(int id, String name, int rate){
+        this.id=id;
+        this.name=name;
+        this.rate=rate;
+    }
+    int getid(){
+        return id;
+    }
+    String getname(){
+        return name;
+    }
+    int getrate(){
+        return rate;
+    }
+    @Override
+    public String toString(){
+        return "id="+id+"name="+name+"rate="+rate;
+    }
+}
+
+class FullEmployee extends Employee{
+    int salary;
+    int benifits;
+    FullEmployee(int id, String name, int rate, int salary,int benifits){
+        super(id,name,rate);
+        this.salary=salary;
+        this.benifits=benifits;
+    }
+
+    int getsalary(){
+        return salary;
+    }
+
+    int beneifits(){
+        return benifits;
+    }
+    @Override//o is capital
+    public String toString(){
+    return "id="+id+"name="+name+"rate="+rate+"salary="+salary+"benifits="+benifits;
+    }
+
+    int calculatemonthlysal(){
+        return salary+benifits;
+    }
+}
+
+class HalfEmployee extends Employee{
+    int hours;
+    int overtime;
+    HalfEmployee(int id, String name, int rate,int hours,int overtime){
+        super(id,name,rate);
+        this.hours=hours;
+        this.overtime=overtime;
+    }
+    public int getHours() {
+        return hours;
+    }
+    public int getOvertime() {
+        return overtime;
+    }
+    @Override
+    public String toString() {
+        return "id="+id+"name="+name+"rate="+rate+"hours="+hours+"overtime="+overtime;
+    }
+    int calculatemonthlysal(){
+        return rate*(hours+overtime);
+    }
+}
+
+public class Inheritance {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter details for Full-time Employee:");
+        System.out.print("Name: ");
+        String name = scanner.nextLine();
+        System.out.print("Employee ID: ");
+        int id = scanner.nextInt();
+        System.out.print("Hourly Rate: ");
+        int rate = scanner.nextInt();
+        System.out.print("Salary: ");
+        int salary = scanner.nextInt();
+        System.out.print("Benefits: ");
+        int benifits = scanner.nextInt();
+        scanner.nextLine(); 
+        FullEmployee fullTimeEmployee = new FullEmployee(id, name, rate, salary, benifits);
+        System.out.println("Enter details for Part-time Employee:");
+        System.out.print("Name: ");
+        String partName = scanner.nextLine();
+        System.out.print("Employee ID: ");
+        int partId = scanner.nextInt();
+        System.out.print("Hourly Rate: ");
+        int partHourlyRate = scanner.nextInt();
+        System.out.print("Hours Worked: ");
+        int partHoursWorked = scanner.nextInt();
+        System.out.print("Overtime Rate: ");
+        int partOvertimeRate = scanner.nextInt();
+        HalfEmployee partTimeEmployee = new HalfEmployee(partId, partName, partHourlyRate, partHoursWorked, partOvertimeRate);
+
+        System.out.println(fullTimeEmployee);
+        System.out.println("Full-Time Employee Monthly Salary: $" + fullTimeEmployee.calculatemonthlysal());
+        System.out.println(partTimeEmployee);
+        System.out.println("Part-Time Employee Monthly Salary: $" + partTimeEmployee.calculatemonthlysal());
+        scanner.close();
+
+    }
+}
+
+
+3.	You are required to design a system for managing different types of shapes. The system should be able to calculate the area and perimeter of various shapes such as circles, rectangles, and triangles. Each shape has different methods to calculate its area and perimeter. (Use abstract methods-calculateArea(), calculatePerimeter(), displayDetails()). Your task is to implement a Java program using polymorphism to represent these different types of shapes and calculate their area and perimeter. Additionally, the program should provide functionality to display the details of each shape.
+//abstraction
+import java.util.*;
+
+abstract class Shape {
+    abstract double calculateArea();
+    abstract double calculatePerimeter();
+    abstract void displayDetails();
+}
+
+class Circle extends Shape{
+    int radius;
+    Circle(int radius){
+        this.radius=radius;
+    }
+    @Override
+    double calculateArea() {
+        return 3.14*radius*radius;
+    }
+    @Override
+    double calculatePerimeter() {
+        return 3.14*2*radius;
+    }
+    @Override
+    void displayDetails() {
+        System.out.println("Shape: Circle");
+        System.out.println("Radius: " + radius);
+        System.out.println("Area: " + calculateArea());
+        System.out.println("Perimeter: " + calculatePerimeter());
+    }
+}
+
+class Reactangle extends Shape{
+    int length;
+    int breadth;
+    Reactangle(int length, int breadth){
+        this.length=length;
+        this.breadth=breadth;
+    }
+    @Override
+    double calculateArea() {
+        return length*breadth;
+    }
+    @Override
+    double calculatePerimeter() {
+        return 2*(length+breadth);
+    }
+    @Override
+    void displayDetails() {
+        System.out.println("Shape: Rectangle");
+        System.out.println("Length: " + length);
+        System.out.println("Width: " + breadth);
+        System.out.println("Area: " + calculateArea());
+        System.out.println("Perimeter: " + calculatePerimeter());
+
+    }
+}
+
+class Triangle extends Shape{
+    double side1;
+    double side2;
+    double side3;
+    Triangle(double side1,double side2, double side3){
+        this.side1=side1;
+        this.side2=side2;
+        this.side3=side3;
+    }
+
+    @Override
+    double calculateArea() {
+        double s = (side1 + side2 + side3) / 2;
+        return Math.sqrt(s * (s - side1) * (s - side2) * (s - side3));
+
+    }
+
+    @Override
+    double calculatePerimeter() {
+        return side1+side2+side3;
+    }
+
+    @Override
+    void displayDetails() {
+        
+        System.out.println("Shape: Triangle");
+        System.out.println("Side A: " + side1);
+        System.out.println("Side B: " + side2);
+        System.out.println("Side C: " + side3);
+        System.out.println("Area: " + calculateArea());
+        System.out.println("Perimeter: " + calculatePerimeter());
+
+    }
+}
+
+public class abstraction {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the radius of the circle: ");
+        int circleRadius = scanner.nextInt();
+        Shape circle = new Circle(circleRadius);
+        System.out.print("Enter the length of the rectangle: ");
+        int rectangleLength = scanner.nextInt();
+        System.out.print("Enter the width of the rectangle: ");
+        int rectangleWidth = scanner.nextInt();
+        Shape rectangle = new Reactangle(rectangleLength, rectangleWidth);
+        System.out.print("Enter the side A of the triangle: ");
+        double sideA = scanner.nextDouble();
+        System.out.print("Enter the side B of the triangle: ");
+        double sideB = scanner.nextDouble();
+        System.out.print("Enter the side C of the triangle: ");
+        double sideC = scanner.nextDouble();
+        Shape triangle = new Triangle(sideA, sideB, sideC);
+        System.out.println();
+        circle.displayDetails();
+        System.out.println();
+        rectangle.displayDetails();
+        System.out.println();
+        triangle.displayDetails();
+        scanner.close();
+
+    }
+    
+}
+
+
+4.	Implement a program for a temperature converter. The program should convert temperatures between Celsius and Fahrenheit. However, there are certain constraints:
+I. The temperature value should be within a valid range (-273.15°C to 1000°C).
+Ii. The conversion should only be performed if the input temperature is within the valid range.
+Your task is to implement a Java program that handles these constraints using custom exceptions. Define a custom exception class InvalidTemperatureException to handle the case when the input temperature is outside the valid range.
+//user defined exception handling 
+import java.util.*;
+
+class InvalidTemperatureException extends Exception{
+    InvalidTemperatureException(String message){
+        super(message);
+    }
+}
+
+class Converter{
+    static double celsiustofar(double celsius) throws InvalidTemperatureException{
+        if (celsius < -273.15 || celsius > 1000) {
+            throw new InvalidTemperatureException("Invalid temperature value: " + celsius + "C");
+        }
+        return (celsius * 9 / 5) + 32;
+
+    }
+
+    static double fartocelsius(double far) throws InvalidTemperatureException{
+        double celsius = (far - 32) * 5 / 9;
+        if (celsius < -273.15 || celsius > 1000) {
+            throw new InvalidTemperatureException("Invalid temperature value: " + celsius + "C");
+        }
+        return celsius;
+    }
+}
+public class exception {
+    public static void main(String[] args) throws InvalidTemperatureException {//need to mention that it can throw this exception if try catch block is not there
+        Scanner scanner = new Scanner(System.in);
+        try {
+            System.out.print("Enter the temperature in Celsius: ");
+            double celsiusInput = scanner.nextDouble();
+            double fahrenheitOutput = Converter.celsiustofar(celsiusInput);
+            System.out.println(celsiusInput + "C is equal to " + fahrenheitOutput + "F");
+            System.out.print("Enter the temperature in Fahrenheit: ");
+            double fahrenheitInput = scanner.nextDouble();
+            double celsiusOutput = Converter.fartocelsius(fahrenheitInput);
+            System.out.println(fahrenheitInput + "F is equal to " + celsiusOutput + "C");
+        } catch (InvalidTemperatureException e) {
+            System.out.println("Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Error: Invalid input");
+        } finally {
+            scanner.close();
+        }
+
+    }
+}
+
+
+5.	Implement a Java program for calculating the area of geometric shapes. The program should support calculating the area of a rectangle, a square, and a circle. Each shape has a different method to calculate its area. Your task is to implement a Java program that demonstrates method overloading by providing multiple versions of the calculateArea() method to calculate the area of each shape. (Use method overloading)
+//method overloading 
+import java.util.*;
+
+public class overloading {
+    static void calculateArea(int length, int breadth) {
+        int area = length * breadth;
+        System.out.println("Area of the rectangle is " + area);
+    }
+    static void calculateArea(double radius) {
+        double area = Math.PI * radius * radius;
+        System.out.println("Area of the circle is " + area);
+    }
+    static void calculateArea(double base, double height) {
+        double area = 0.5 * base * height;
+        System.out.println("Area of the triangle is " + area);
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter length and breadth of the rectangle:");
+        int length = sc.nextInt();
+        int breadth = sc.nextInt();
+        calculateArea(length, breadth);
+        System.out.print("Enter radius of the circle:");
+        double radius = sc.nextDouble();
+        calculateArea(radius);
+        System.out.print("Enter base and height of the triangle:");
+        double base = sc.nextDouble();
+        double height = sc.nextDouble();
+        calculateArea(base, height);
+        sc.close();
+
+    }
+}
+
+6.	implement a Java program to represent a simple calculator. The calculator should have the following features:
+A.	Addition of two numbers
+B.	Subtraction of two numbers
+C.	Multiplication of two numbers
+D.	Division of two numbers
+Additionally, the program should initialize a constant value for the value of PI (3.14) and print a welcome message when an instance of the calculator is created. (static block)
+Print “New calculator instance” using the instance block. Your task is to implement a Java program that demonstrates the use of constructors, static block, and instance block to achieve these features.
+
+//calculator , static block instance block
+import java.util.*;
+ class calci {
+    static final double pi;
+    static{
+        pi=3.14;
+        System.out.println("Welcome to the Calculator!");
+    }
+    {
+        System.out.println("New calculator instance");
+    }
+    double add(double num1, double num2) {
+        return num1 + num2;
+    }
+    double subtract(double num1, double num2) {
+        return num1 - num2;
+    }
+    double multiply(double num1, double num2) {
+        return num1 * num2;
+    }
+    double divide(double num1, double num2) {
+        if (num2 == 0) {
+            throw new ArithmeticException("Cannot divide by zero");
+        }
+        return num1 / num2;
+    }
+}
+
+public class calculator{
+    public static void main(String[] args) {
+        calci calculator=new calci();
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter first number:");
+        double num1 = scanner.nextDouble();
+        System.out.print("Enter second number:");
+        double num2 = scanner.nextDouble();
+        System.out.println("Choose operation: +, -, *, /");
+        char operation = scanner.next().charAt(0);//used for char 
+        switch (operation) {
+            case '+':
+                System.out.println(calculator.add(num1, num2)); 
+                break;
+            case '-':
+                System.out.println(calculator.subtract(num1, num2));
+                break;
+            case '*':
+                System.out.println(calculator.multiply(num1, num2));
+                break;
+            case '/':
+                try {
+                    System.out.println(calculator.divide(num1, num2));
+                } catch (ArithmeticException e) {
+                    System.out.println(e.getMessage());
+                }
+                break;
+            default:
+                System.out.println("Invalid operation");
+        }
+
+        scanner.close();
+    }
+    
+}
+
+7.	Implement a Java program to represent a shape hierarchy. The program should have interfaces for different types of shapes, such as Drawable for shapes that can be drawn and Resizable for shapes that can be resized. 
+Interface Drawable has draw() method 
+Interface Resizable has resize(double factor) method 
+Implement classes for specific shapes such as circle, rectangle and demonstrate multiple inheritance by implementing both Drawable and Resizable interfaces in appropriate classes.
+Circle implements both interfaces and implements both methods
+Rectangle implements only Drawable interface and implements draw() method.
+
+//interfaces-multiple inheritance
+import java.util.*;
+
+interface Drawable {
+    void draw();
+}
+
+interface Resizable{
+    void resize(double factor);
+}
+
+class Circle implements Drawable,Resizable{
+    double radius;
+    Circle(double radius){
+        this.radius=radius;
+    }
+    @Override
+    public void resize(double factor) {
+        radius *= factor;
+        System.out.println("Resized circle to new radius: " + radius);
+
+    }
+    @Override
+    public void draw() {
+        System.out.println("Drawing a circle with radius: " + radius);
+    }
+}
+
+class Rectangle implements Drawable{
+    double length;
+    double breadth;
+    Rectangle(double length,double breadth){
+        this.length=length;
+        this.breadth=breadth;
+    }
+   
+    @Override
+    public void draw() {  
+        System.out.println("Drawing a rectangle with width: " + breadth + " and height: " + length);
+    }
+}
+
+
+public class interfaces {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the radius of the circle: ");
+        double circleRadius = scanner.nextDouble();
+        Circle circle = new Circle(circleRadius);
+        circle.draw();
+        circle.resize(2.0);
+        circle.draw();
+
+        System.out.print("Enter the length of the rectangle: ");
+        double rectangleLength = scanner.nextDouble();
+        System.out.print("Enter the width of the rectangle: ");
+        double rectangleWidth = scanner.nextDouble();
+        Rectangle rectangle = new Rectangle(rectangleLength,rectangleWidth);
+        rectangle.draw();
+        scanner.close();
+
+    }
+    
+}
+
+
+8.	Implement a Java program to perform basic operations on arrays. The program should support the following operations:
+A.	Initialize an array with given elements.
+B.	Find the sum of all elements in the array.
+C.	Find the maximum element in the array.
+D.	Find the minimum element in the array.
+E.	Sort the elements of the array in ascending order.
+F.	Reverse the elements of the array.
+
+//array operations 
+import java.util.*;
+
+class ArrayOperations {//in array operation dont make different classes 
+    
+    static int[] initializeArray(int[] elements) {//static cause direct;y calling class method
+        return Arrays.copyOf(elements, elements.length);
+    }
+
+    static int findSum(int[] array) {
+        int sum = 0;
+        for (int element : array) {
+            sum += element;
+        }
+        return sum;
+    }
+
+    static int findMax(int[] array) {
+        int max = array[0];
+        for (int element : array) {
+            if (element > max) {
+                max = element;
+            }
+        }
+        return max;
+    }
+
+    static int findMin(int[] array) {
+        int min = array[0];
+        for (int element : array) {
+            if (element < min) {
+                min = element;
+            }
+        }
+        return min;
+    }
+
+    static void sortArray(int[] array) {
+        //int[] sortedArray = Arrays.copyOf(array, array.length);//make a copy of array(orginal)
+        // Arrays.sort(sortedArray);
+        Arrays.sort(array);
+        System.out.println("Array sorted in ascending order: " + Arrays.toString(array));
+    }
+
+    static void reverseArray(int[] array) {
+        int n = array.length;
+        for (int i = 0; i < n / 2; i++) {
+            int temp = array[i];
+            array[i] = array[n - i - 1];
+            array[n - i - 1] = temp;
+        }
+        System.out.println("Array reversed: " + Arrays.toString(array));
+    }
+}
+
+public class Array{
+    public static void main(String[] args) {
+        //int[] elements = {3, 5, 1, 4, 2};
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the number of elements in the array: ");
+        int n = scanner.nextInt();
+        int[] elements = new int[n];
+
+        System.out.println("Enter the elements of the array:");
+        for (int i = 0; i < n; i++) {
+            elements[i] = scanner.nextInt();
+        }
+        int[] array = ArrayOperations.initializeArray(elements);
+
+        int sum = ArrayOperations.findSum(array);
+        System.out.println("Sum of elements: " + sum);
+
+        int max = ArrayOperations.findMax(array);
+        System.out.println("Maximum element: " + max);
+
+        int min = ArrayOperations.findMin(array);
+        System.out.println("Minimum element: " + min);
+
+        ArrayOperations.sortArray(array);
+        ArrayOperations.reverseArray(array);
+
+        scanner.close();
+
+    }
+
+}
+
+
+
+
+9. Implement a Java program to perform basic operations on strings. The program should support the following operations:
+A.	Concatenate two strings.
+B.	Find the length of a string.
+C.	Convert a string to uppercase.
+D.	Convert a string to lowercase.
+E.	Check if a string contains a specific substring.
+F.	Replace a substring with another substring in a string.
+
+import java.util.Scanner;
+
+public class LAB_9 {
+
+    // Method to concatenate two strings
+    public static String concatenateStrings(String str1, String str2) {
+        return str1 + str2;
+    }
+
+    // Method to find the length of a string
+    public static int getStringLength(String str) {
+        return str.length();
+    }
+
+    // Method to convert a string to uppercase
+    public static String convertToUpperCase(String str) {
+        return str.toUpperCase();
+    }
+
+    // Method to convert a string to lowercase
+    public static String convertToLowerCase(String str) {
+        return str.toLowerCase();
+    }
+
+    // Method to check if a string contains a specific substring
+    public static boolean containsSubstring(String str, String substr) {
+        return str.contains(substr);
+    }
+
+    // Method to replace a substring with another substring in a string
+    public static String replaceSubstring(String str, String oldSubstr, String newSubstr) {
+        return str.replace(oldSubstr, newSubstr);
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Display menu
+        System.out.println("String Operations:");
+        System.out.println("A. Concatenate two strings");
+        System.out.println("B. Find the length of a string");
+        System.out.println("C. Convert a string to uppercase");
+        System.out.println("D. Convert a string to lowercase");
+        System.out.println("E. Check if a string contains a specific substring");
+        System.out.println("F. Replace a substring with another substring in a string");
+        System.out.print("Choose an option (A-F): ");
+
+        char choice = scanner.next().charAt(0);
+        scanner.nextLine();  // Consume the newline
+
+        switch (choice) {
+            case 'A':
+                System.out.print("Enter the first string: ");
+                String str1 = scanner.nextLine();
+                System.out.print("Enter the second string: ");
+                String str2 = scanner.nextLine();
+                System.out.println("Concatenated string: " + concatenateStrings(str1, str2));
+                break;
+            case 'B':
+                System.out.print("Enter the string: ");
+                String strLength = scanner.nextLine();
+                System.out.println("Length of the string: " + getStringLength(strLength));
+                break;
+            case 'C':
+                System.out.print("Enter the string: ");
+                String strUpper = scanner.nextLine();
+                System.out.println("Uppercase string: " + convertToUpperCase(strUpper));
+                break;
+            case 'D':
+                System.out.print("Enter the string: ");
+                String strLower = scanner.nextLine();
+                System.out.println("Lowercase string: " + convertToLowerCase(strLower));
+                break;
+            case 'E':
+                System.out.print("Enter the main string: ");
+                String mainStr = scanner.nextLine();
+                System.out.print("Enter the substring to check: ");
+                String substr = scanner.nextLine();
+                System.out.println("Contains substring: " + containsSubstring(mainStr, substr));
+                break;
+            case 'F':
+                System.out.print("Enter the main string: ");
+                String mainString = scanner.nextLine();
+                System.out.print("Enter the substring to replace: ");
+                String oldSubstr = scanner.nextLine();
+                System.out.print("Enter the new substring: ");
+                String newSubstr = scanner.nextLine();
+                System.out.println("Modified string: " + replaceSubstring(mainString, oldSubstr, newSubstr));
+                break;
+            default:
+                System.out.println("Invalid option. Please choose A-F.");
+                break;
+        }
+
+        scanner.close();
+    }
+}
+
+
+10. You are tasked with creating a Java program that counts the number of unique words in a given text using a HashSet. Requirements: WordCounter Class:
+Create a WordCounter class that includes the following:
+A method countUniqueWords(String text) that takes a text as input and returns thecount of unique words. Use a HashSet to store unique words. Consider a word as any sequence of characters separated by whitespace. Main Application:    Implement a main application that demonstrates the functionality of the WordCounter  class.Allow the user to input a text string. Use the WordCounter class to count and display the number of unique words in the input text.
+Sample Output : Enter a text string: This is a simple Java program. Java is powerful and simple.        Number of unique words: 8
+
+//Hashset 
+
+import java.util.*;
+
+class WordCounter {
+
+    // Method to count unique words in the input text
+    static int countUniqueWords(String text) {
+        // Split the text into words using whitespace as delimiter
+        String[] words = text.split("\\s+");
+
+        // Create a HashSet to store unique words
+        HashSet<String> uniqueWords = new HashSet<>();
+
+        // Add each word to the HashSet
+        for (String word : words) {
+            uniqueWords.add(word);
+        }
+
+        // Return the size of the HashSet, which represents the count of unique words
+        return uniqueWords.size();
+    }
+
+}
+
+public class Hashset {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Instantiate the WordCounter class
+
+        // Prompt the user to input a text string
+        System.out.print("Enter a text string: ");
+        String inputText = scanner.nextLine();
+
+        // Count the number of unique words using the WordCounter class
+        int uniqueWordCount=WordCounter.countUniqueWords(inputText);
+
+        // Display the result
+        System.out.println("Number of unique words: " + uniqueWordCount);
+
+        scanner.close();
+    }
+}
+
+
+11. a. Check that given number is Armstrong or not.Eg-153=1 3 +5 3 +3 3 =1+225+27=153
+b. Write a Java program to check whether two strings are anagram or not?
+RACE and CARE are anagram strings.
+c. Take two DOB in string format from user .Compare it and display the
+messages as “Younger”, ”Elder” or “Same age”.
+d. Check that given no. is prime or not.
+//armstrong  anagrams  comapre DOB prime check 
+
+import java.util.*;
+import java.time.*;//LocalDate
+import java.time.format.*;//DateTimeFormatter
+
+public class logic {
+     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Armstrong number check
+        System.out.print("Enter a number to check if it's an Armstrong number: ");
+        int armstrongNumber = scanner.nextInt();
+        System.out.println(isArmstrong(armstrongNumber) 
+            ? armstrongNumber + " is an Armstrong number." 
+            : armstrongNumber + " is not an Armstrong number.");
+        
+        scanner.nextLine(); // consume newline
+
+        // Anagram check
+        System.out.print("Enter first string for anagram check: ");
+        String str1 = scanner.nextLine();
+        System.out.print("Enter second string for anagram check: ");
+        String str2 = scanner.nextLine();
+        System.out.println(areAnagrams(str1, str2) 
+            ? "The strings are anagrams." 
+            : "The strings are not anagrams.");
+
+        // Compare DOB
+        System.out.print("Enter first date of birth (yyyy-MM-dd): ");
+        String dob1 = scanner.nextLine();
+        System.out.print("Enter second date of birth (yyyy-MM-dd): ");
+        String dob2 = scanner.nextLine();
+        System.out.println(compareDOB(dob1, dob2));
+
+        // Prime number check
+        System.out.print("Enter a number to check if it's a prime number: ");
+        int primeNumber = scanner.nextInt();
+        System.out.println(isPrime(primeNumber) 
+            ? primeNumber + " is a prime number." 
+            : primeNumber + " is not a prime number.");
+
+        scanner.close();
+    }
+
+    // Method to check if a number is an Armstrong number
+    static boolean isArmstrong(int number) {
+        int originalNumber = number;
+        int sum = 0;
+        int digits = Integer.toString(number).length();
+
+        while (number != 0) {
+            int remainder = number % 10;
+            sum += Math.pow(remainder, digits);
+            number /= 10;
+        }
+
+        return sum == originalNumber;
+    }
+
+    // Method to check if two strings are anagrams
+    public static boolean areAnagrams(String str1, String str2) {
+        if (str1.length() != str2.length()) {
+            return false;
+        }
+
+        char[] charArray1 = str1.toCharArray();
+        char[] charArray2 = str2.toCharArray();
+
+        Arrays.sort(charArray1);
+        Arrays.sort(charArray2);
+
+        return Arrays.equals(charArray1, charArray2);
+    }
+
+    // Method to compare two dates of birth
+    public static String compareDOB(String dob1, String dob2) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");// format of dob
+        LocalDate date1 = LocalDate.parse(dob1, formatter);
+        LocalDate date2 = LocalDate.parse(dob2, formatter);
+
+        if (date1.isBefore(date2)) {
+            return "First person is elder.";
+        } else if (date1.isAfter(date2)) {
+            return "First person is younger.";
+        } else {
+            return "Both persons are of the same age.";
+        }
+    }
+
+    // Method to check if a number is prime
+    public static boolean isPrime(int number) {
+        if (number <= 1) {
+            return false;
+        }
+        for (int i = 2; i <= Math.sqrt(number); i++) {
+            if (number % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+
+
+12.  a. 	Create arrayList, add the integer elements in arrayList using asList().Remove the duplicate values and return an arrayList containing unique values. Implement the logic inside removeDuplicates() method. Test the functionalities using the main () method of the Tester class. Sample Input and Output---------10, 20, 10, 15,40,15,40 --- 10,20,15,40.
+ 
+
+b. 	Create any arraylist and perform following operations-
+I.	check if an element  exists in ArrayList?
+II.	add element at particular index of ArrayList?
+III.	remove element at particular index of ArrayList?
+IV.	sort a given array list.(collections.sort())
+V.	reverse elements in an array list.
+VI.	compare two array lists.
+VII.	find first and last occurrence of repeated elements.
+//unique arraylist 
+
+import java.util.*;
+
+public class Arraylist {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.print("Enter the number of elements: ");
+        int n = scanner.nextInt();
+        
+        List<Integer> list = new ArrayList<>();
+        
+        // Read elements from user
+        System.out.println("Enter the elements:");
+        for (int i = 0; i < n; i++) {
+            list.add(scanner.nextInt());
+        }
+  //List<Integer> list = new ArrayList<>(Arrays.asList(10, 40, 15, 40));
+
+        //Collections.addAll(list, 10, 20, 10, 15, 40, 15, 40);
+        
+        // Remove duplicates
+        List<Integer> uniqueList = removeDuplicates(list);
+        System.out.println("Unique values: " + uniqueList);
+        
+                // I. Check if an element exists in ArrayList
+                System.out.print("Enter an element to check existence: ");
+                int element = scanner.nextInt();
+                System.out.println("Element exists: " + list.contains(element));
+        
+                // II. Add element at a particular index
+                System.out.print("Enter element to add: ");
+                int newElement = scanner.nextInt();
+                System.out.print("Enter index to add the element at: ");
+                int index = scanner.nextInt();
+                list.add(index, newElement);
+                System.out.println("ArrayList after adding element: " + list);
+        
+                // III. Remove element at a particular index
+                System.out.print("Enter index to remove the element from: ");
+                int removeIndex = scanner.nextInt();
+                list.remove(removeIndex);
+                System.out.println("ArrayList after removing element: " + list);
+        
+                // IV. Sort a given ArrayList
+                ArrayList<Integer> sortedList = new ArrayList<>(list);
+                Collections.sort(sortedList);
+                System.out.println("Sorted ArrayList: " + sortedList);
+        
+                // V. Reverse elements in an ArrayList
+                ArrayList<Integer> reversedList = new ArrayList<>(list);
+                Collections.reverse(reversedList);
+                System.out.println("Reversed ArrayList: " + reversedList);
+        
+                // VI. Compare two ArrayLists
+                ArrayList<Integer> anotherList = new ArrayList<>();
+                anotherList.add(10);
+                anotherList.add(20);
+                anotherList.add(15);
+                anotherList.add(40);
+                System.out.println("Another ArrayList: " + anotherList);
+                System.out.println("ArrayLists are equal: " + list.equals(anotherList));
+        
+                // VII. Find first and last occurrence of repeated elements
+                System.out.print("Enter element to find occurrences: ");
+                int findElement = scanner.nextInt();
+                int firstOccurrence = list.indexOf(findElement);
+                int lastOccurrence = list.lastIndexOf(findElement);
+                //to check repeated elements compare first and last occurance of elements 
+                System.out.println("First occurrence of " + findElement + ": " + firstOccurrence);
+                System.out.println("Last occurrence of " + findElement + ": " + lastOccurrence);
+        
+        scanner.close();
+    }
+
+     static List<Integer> removeDuplicates(List<Integer> list) {
+        List<Integer> uniqueList = new ArrayList<>();
+
+        for (Integer element : list) {
+            if (!uniqueList.contains(element)) {
+                uniqueList.add(element);
+            }
+        }
+
+        return uniqueList;
+    }
+    
+    
+}
+
+
+
+13.   Generate a random array of integers with a specified size and range of values.
+Implement the following array manipulation operations as separate methods:
+a.	Rotate the elements of the array to the right by a specified number of position.
+b.	Remove duplicate elements from the array while preserving the original order.
+c.	Rearrange the elements of the array such that all even numbers appear before all odd numbers, preserving the relative order of even and odd numbers.
+Sample output:
+ 
+	 
+//rotate array, rearrange even odd
+
+import java.util.*;
+
+public class Arrayrotate {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the size of the array: ");
+        int size = scanner.nextInt();
+
+        System.out.print("Enter the range of values (0 to N): ");
+        int range = scanner.nextInt();
+
+        int[] array = generateRandomArray(size, range);
+        System.out.println("Generated array: ");
+        printArray(array);
+
+        System.out.print("Enter the number of positions to rotate the array to the right: ");
+        int positions = scanner.nextInt();
+        rotateRight(array, positions);
+        System.out.println("Array after right rotation: ");
+        printArray(array);
+
+        int[] arrayWithDuplicates = generateRandomArray(size, range);
+        System.out.println("Array with duplicates: ");
+        printArray(arrayWithDuplicates);
+        int[] uniqueArray = removeDuplicates(arrayWithDuplicates);
+        System.out.println("Array after removing duplicates: ");
+        printArray(uniqueArray);
+
+        int[] arrayToRearrange = generateRandomArray(size, range);
+        System.out.println("Array before rearranging: ");
+        printArray(arrayToRearrange);
+        rearrangeEvenOdd(arrayToRearrange);
+        System.out.println("Array after rearranging even and odd numbers: ");
+        printArray(arrayToRearrange);
+
+        scanner.close();
+    }
+
+    public static int[] generateRandomArray(int size, int range) {
+        Random random = new Random();
+        int[] array = new int[size];
+        for (int i = 0; i < size; i++) {
+            array[i] = random.nextInt(range + 1);
+        }
+        return array;
+    }
+
+    public static void rotateRight(int[] array, int positions) {
+        int n = array.length;
+        positions = positions % n;
+        reverse(array, 0, n - 1);
+        reverse(array, 0, positions - 1);
+        reverse(array, positions, n - 1);
+    }
+
+    public static void reverse(int[] array, int start, int end) {
+        while (start < end) {
+            int temp = array[start];
+            array[start] = array[end];
+            array[end] = temp;
+            start++;
+            end--;
+        }
+    }
+
+    public static int[] removeDuplicates(int[] array) {
+        ArrayList<Integer> uniqueList = new ArrayList<>();
+        for (int value : array) {
+            if (!uniqueList.contains(value)) {
+                uniqueList.add(value);
+            }
+        }
+        int[] uniqueArray = new int[uniqueList.size()];
+        for (int i = 0; i < uniqueList.size(); i++) {
+            uniqueArray[i] = uniqueList.get(i);
+        }
+        return uniqueArray;
+    }
+
+    public static void rearrangeEvenOdd(int[] array) {
+        ArrayList<Integer> evenList = new ArrayList<>();
+        ArrayList<Integer> oddList = new ArrayList<>();
+        for (int value : array) {
+            if (value % 2 == 0) {
+                evenList.add(value);
+            } else {
+                oddList.add(value);
+            }
+        }
+        int index = 0;
+        for (int value : evenList) {
+            array[index++] = value;
+        }
+        for (int value : oddList) {
+            array[index++] = value;
+        }
+    }
+
+    public static void printArray(int[] array) {
+        for (int value : array) {
+            System.out.print(value + " ");
+        }
+        System.out.println();
+    }
+}
+
+
+
+14.  You are given two integer arrays, nums1 and nums2, where nums1 is guaranteed to be the same length or shorter than nums2. Write a method to return an array representing their intersection. Each element in the result should appear as many times as it shows in both arrays, and you may return the result in any order. You can implement method like: 
+ public static int[] intersection(int[] nums1, int[] nums2).
+You can use array concept or collection framework classes .
+Sample o/p:
+ nums1 = {1,3, 2, 1};
+  nums2 = {3, 2};
+
+nums3 = {4, 9, 5};
+            nums4 = {9, 4, 9, 8, 4};  
+//combine array intersect array
+
+import java.util.*;
+public class Intersectarray {
+    static int[] intersect(int[] arr1, int[] arr2) {
+        int len1 = arr1.length;
+        int len2 = arr2.length;
+        
+        // Create a new array to hold the combined elements
+        int[] combinedArray = new int[len1 + len2];
+        
+        // Copy elements from arr1 to combinedArray
+        for (int i = 0; i < len1; i++) {
+            combinedArray[i] = arr1[i];
+        }
+        
+        // Copy elements from arr2 to combinedArray
+        for (int i = 0; i < len2; i++) {
+            combinedArray[len1 + i] = arr2[i];
+        }
+        ArrayList<Integer> uniqueList = new ArrayList<>();
+        for (int value : combinedArray) {
+            if (!uniqueList.contains(value)) {
+                uniqueList.add(value);
+            }
+        }
+        int[] uniqueArray = new int[uniqueList.size()];
+        for (int i = 0; i < uniqueList.size(); i++) {
+            uniqueArray[i] = uniqueList.get(i);
+        }
+        return uniqueArray;
+    }
+
+    public static void main(String[] args) {
+        int[] arr1 = {1, 2, 3};
+        int[] arr2 = {4, 2, 6};
+        
+        int[] combinedArray = intersect(arr1, arr2);
+        
+        // Print the combined array
+        for (int num : combinedArray) {
+            System.out.print(num + " ");
+        }
+    }
+}
+
+
+15.  Design a Java program that should support functionalities such as employee registration, salary calculation, and employee evaluation. The program should have the following features:
+•	Employee Hierarchy:
+	Design an abstract superclass called Employee.
+	Implement subclasses FullTimeEmployee and PartTimeEmployee that inherit from Employee.
+	Each subclass should have instance variables to store employee details such as name, employee ID, and salary information (e.g., hourly rate for part-time employees, monthly salary for full-time employees).
+	Each subclass should override methods such as calculateSalary() to perform salary calculation specific to the employee type and evaluatePerformance() to evaluate employee performance.
+•	Salary Calculation:
+o	Implement methods in each subclass to calculate the salary based on the employee's work hours or performance metrics.
+o	Ensure that salaries are calculated accurately and take into account factors such as overtime pay or performance bonuses.
+o	Performance evaluation not applicable for part-time employee
+•	Input/Output:
+o	Implement a user interface to interact with the employee management system.
+o	Allow the user to register new employees with unique employee IDs and provide their relevant details.
+o	Provide options to calculate and display the salary for each employee.
+o	Implement functionality to evaluate the performance of employees and display performance ratings.
+
+//employee management system
+
+import java.util.*;
+
+// Abstract superclass Employee
+abstract class Employee {
+    protected String name;
+    protected String employeeID;
+
+     Employee(String name, String employeeID) {
+        this.name = name;
+        this.employeeID = employeeID;
+    }
+
+     abstract double calculateSalary();
+
+     abstract String evaluatePerformance();
+
+    @Override
+     public String toString() {
+        return "Employee ID: " + employeeID + ", Name: " + name;
+    }
+}
+
+// Subclass FullTimeEmployee
+class FullTimeEmployee extends Employee {
+     double monthlySalary;
+     double performanceBonus;
+
+     FullTimeEmployee(String name, String employeeID, double monthlySalary, double performanceBonus) {
+        super(name, employeeID);
+        this.monthlySalary = monthlySalary;
+        this.performanceBonus = performanceBonus;
+    }
+
+    @Override
+     double calculateSalary() {
+        return monthlySalary + performanceBonus;
+    }
+
+    @Override
+     String evaluatePerformance() {
+        // Implement your own performance evaluation logic
+        return "Performance evaluated for full-time employee.";
+    }
+
+    @Override
+     public String toString() {
+        return super.toString() + ", Monthly Salary: " + monthlySalary + ", Performance Bonus: " + performanceBonus;
+    }
+}
+
+// Subclass PartTimeEmployee
+class PartTimeEmployee extends Employee {
+     double hourlyRate;
+     int hoursWorked;
+
+     PartTimeEmployee(String name, String employeeID, double hourlyRate, int hoursWorked) {
+        super(name, employeeID);
+        this.hourlyRate = hourlyRate;
+        this.hoursWorked = hoursWorked;
+    }
+
+    @Override
+     double calculateSalary() {
+        return hourlyRate * hoursWorked;
+    }
+
+    @Override
+     String evaluatePerformance() {
+        return "Performance evaluation not applicable for part-time employee.";
+    }
+
+    @Override
+     public String toString() {
+        return super.toString() + ", Hourly Rate: " + hourlyRate + ", Hours Worked: " + hoursWorked;
+    }
+}
+
+// Main class EmployeeManagementSystem
+ public class EmployeeManagementSystem {
+     static List<Employee> employees = new ArrayList<>();
+     static Scanner scanner = new Scanner(System.in);
+
+     public static void main(String[] args) {
+        while (true) {
+            System.out.println("Employee Management System:");
+            System.out.println("1. Register Employee");
+            System.out.println("2. Calculate Salary");
+            System.out.println("3. Evaluate Performance");
+            System.out.println("4. Display All Employees");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+
+            switch (choice) {
+                case 1:
+                    registerEmployee();
+                    break;
+                case 2:
+                    calculateSalary();
+                    break;
+                case 3:
+                    evaluatePerformance();
+                    break;
+                case 4:
+                    displayAllEmployees();
+                    break;
+                case 5:
+                    System.out.println("Exiting...");
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+
+     static void registerEmployee() {
+        System.out.print("Enter employee type (full-time/part-time): ");
+        String type = scanner.nextLine().toLowerCase();
+        System.out.print("Enter name: ");
+        String name = scanner.nextLine();
+        System.out.print("Enter employee ID: ");
+        String employeeID = scanner.nextLine();
+
+        if (type.equals("full-time")) {
+            System.out.print("Enter monthly salary: ");
+            double monthlySalary = scanner.nextDouble();
+            System.out.print("Enter performance bonus: ");
+            double performanceBonus = scanner.nextDouble();
+            scanner.nextLine(); // Consume newline
+
+            employees.add(new FullTimeEmployee(name, employeeID, monthlySalary, performanceBonus));
+            System.out.println("Full-time employee registered successfully.");
+        } else if (type.equals("part-time")) {
+            System.out.print("Enter hourly rate: ");
+            double hourlyRate = scanner.nextDouble();
+            System.out.print("Enter hours worked: ");
+            int hoursWorked = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+
+            employees.add(new PartTimeEmployee(name, employeeID, hourlyRate, hoursWorked));
+            System.out.println("Part-time employee registered successfully.");
+        } else {
+            System.out.println("Invalid employee type.");
+        }
+    }
+
+     static void calculateSalary() {
+        System.out.print("Enter employee ID: ");
+        String employeeID = scanner.nextLine();
+
+        for (Employee employee : employees) {
+            if (employee.employeeID.equals(employeeID)) {
+                System.out.println("Salary for " + employee.name + " (" + employee.employeeID + ") is: " + employee.calculateSalary());
+                return;
+            }
+        }
+
+        System.out.println("Employee not found.");
+    }
+
+     static void evaluatePerformance() {
+        System.out.print("Enter employee ID: ");
+        String employeeID = scanner.nextLine();
+
+        for (Employee employee : employees) {
+            if (employee.employeeID.equals(employeeID)) {
+                System.out.println("Performance for " + employee.name + " (" + employee.employeeID + "): " + employee.evaluatePerformance());
+                return;
+            }
+        }
+
+        System.out.println("Employee not found.");
+    }
+
+     static void displayAllEmployees() {
+        if (employees.isEmpty()) {
+            System.out.println("No employees registered.");
+        } else {
+            for (Employee employee : employees) {
+                System.out.println(employee);
+            }
+        }
+    }
+}
+
+
+
+16.  Write a Java program for following operations: You can write menu driven program -
+a.	Create 5 threads.
+b.	Two Synchronized methods -one will print 2’s table and another will prints 5’s table up to 5 places.
+c.	Program that shows demonstration for daemon thread.
+
+import java.util.Scanner;
+
+public class Main {
+
+    // Method to create and start 5 threads
+    public static void createThreads() {
+        for (int i = 1; i <= 5; i++) {
+            Thread t = new Thread(new SimpleThread(i));
+            t.start();
+            try {
+                Thread.sleep(100); // To simulate some delay
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    // Synchronized method to print 2's table
+    public synchronized void printTableOf2() {
+        for (int i = 1; i <= 5; i++) {
+            System.out.println("2 x " + i + " = " + (2 * i));
+            try {
+                Thread.sleep(100); // To simulate some delay
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    // Synchronized method to print 5's table
+    public synchronized void printTableOf5() {
+        for (int i = 1; i <= 5; i++) {
+            System.out.println("5 x " + i + " = " + (5 * i));
+            try {
+                Thread.sleep(100); // To simulate some delay
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    // Method to demonstrate daemon thread
+    public static void daemonThreadDemo() {
+        DaemonThread daemonRunnable = new DaemonThread();
+        Thread daemonThread = new Thread(daemonRunnable);
+        daemonThread.setDaemon(true);
+        daemonThread.start();
+
+        try {
+            // Main thread sleeps for 1 second, then terminates
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        
+        // Interrupt the daemon thread
+        daemonThread.interrupt();
+        System.out.println("Main thread finished.");
+        try {
+            Thread.sleep(100); // Small delay to ensure proper ordering
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } 
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Main mainObj = new Main();
+        while (true) {
+            System.out.println("Menu:");
+            System.out.println("1. Create 5 Threads");
+            System.out.println("2. Print 2's Table");
+            System.out.println("3. Print 5's Table");
+            System.out.println("4. Demonstrate Daemon Thread");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    createThreads();
+                    break;
+                case 2:
+                    mainObj.printTableOf2();
+                    break;
+                case 3:
+                    mainObj.printTableOf5();
+                    break;
+                case 4:
+                    daemonThreadDemo();
+                    break;
+                case 5:
+                    System.out.println("Exiting...");
+                    scanner.close();
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid choice, please try again.");
+            }
+        }
+    }
+}
+
+class SimpleThread implements Runnable {
+    private int threadNumber;
+
+    public SimpleThread(int threadNumber) {
+        this.threadNumber = threadNumber;
+    }
+
+    @Override
+    public void run() {
+        System.out.println("Thread " + threadNumber + " is running.");
+    }
+}
+
+class DaemonThread implements Runnable {
+    @Override
+    public void run() {
+        while (true) {
+            try {
+                System.out.println("Daemon thread is running...");
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                // Daemon thread was interrupted, exit the loop gracefully
+                System.out.println("Daemon thread interrupted.");
+                break;
+            }
+        }
+    }
+}
+
+
+
+17. Design a Java program that simulates a multithreaded calculator. The program should create multiple threads, each responsible for performing a specific arithmetic operation on two numbers.
+The program should have the following features:
+1.	Thread Creation:
+•	Create separate threads for addition, subtraction, multiplication, and division operations.
+	Input:
+•	Prompt the user to enter two numbers and choose an arithmetic operation.(addition, subtraction, multiplication and division)
+	Output:
+•	Display the result of the arithmetic operation performed by each thread.
+	Concurrency:
+•	Ensure that the threads execute concurrently, with each thread performing its designated operation independently of the others.
+	Error Handling:
+•	Validate user input to ensure that numeric values entered are valid.
+•	Handle cases where division by zero occurs.
+
+ 
+// thread calculator 
+import java.util.Scanner;
+
+public class Calculator {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        // Validate user input for the first number
+        double num1;
+        while (true) {
+            try {
+                System.out.print("Enter first number: ");
+                num1 = Double.parseDouble(scanner.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid number.");
+            }
+        }
+
+        // Validate user input for the second number
+        double num2;
+        while (true) {
+            try {
+                System.out.print("Enter second number: ");
+                num2 = Double.parseDouble(scanner.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid number.");
+            }
+        }
+        System.out.println("Choose an operation:");
+        System.out.println("1. Addition");
+        System.out.println("2. Substarction");
+        System.out.println("3. Multiplication");
+        System.out.println("4. Division");
+        System.out.print("Enter your choice: ");
+        int choice = scanner.nextInt();
+
+        // Create and start threads based on the chosen operation
+        switch (choice) {
+            case 1:
+                Thread additionThread = new Thread(new AdditionTask(num1, num2));
+                additionThread.start();
+                break;
+            case 2:
+                Thread subtractionThread = new Thread(new SubtractionTask(num1, num2));
+                subtractionThread.start();
+                break;
+            case 3:
+                Thread multiplicationThread = new Thread(new MultiplicationTask(num1, num2));
+                multiplicationThread.start();
+                break;
+            case 4:
+                Thread divisionThread = new Thread(new DivisionTask(num1, num2));
+                divisionThread.start();
+                break;
+            default:
+                System.out.println("Invalid operation. Please choose a valid arithmetic operation.");
+        }
+
+        scanner.close();
+    }
+}
+
+class AdditionTask implements Runnable {
+    private final double num1;
+    private final double num2;
+
+    public AdditionTask(double num1, double num2) {
+        this.num1 = num1;
+        this.num2 = num2;
+    }
+
+    @Override
+    public void run() {
+        double result = num1 + num2;
+        System.out.println("Addition Result: " + result);
+    }
+}
+
+class SubtractionTask implements Runnable {
+    private final double num1;
+    private final double num2;
+
+    public SubtractionTask(double num1, double num2) {
+        this.num1 = num1;
+        this.num2 = num2;
+    }
+
+    @Override
+    public void run() {
+        double result = num1 - num2;
+        System.out.println("Subtraction Result: " + result);
+    }
+}
+
+class MultiplicationTask implements Runnable {
+    private final double num1;
+    private final double num2;
+
+    public MultiplicationTask(double num1, double num2) {
+        this.num1 = num1;
+        this.num2 = num2;
+    }
+
+    @Override
+    public void run() {
+        double result = num1 * num2;
+        System.out.println("Multiplication Result: " + result);
+    }
+}
+
+class DivisionTask implements Runnable {
+    private final double num1;
+    private final double num2;
+
+    public DivisionTask(double num1, double num2) {
+        this.num1 = num1;
+        this.num2 = num2;
+    }
+
+    @Override
+    public void run() {
+        if (num2 == 0) {
+            System.out.println("Division Result: Error! Division by zero is not allowed.");
+        } else {
+            double result = num1 / num2;
+            System.out.println("Division Result: " + result);
+        }
+    }
+}
+
+18.  Write a Java program to find the length of the longest substring without repeating characters in a given string. The program should have the following features:
+1.	Input:
+•	Prompt the user to enter a string.
+	Output:
+•	Display the length of the longest substring without repeating characters.
+	Substring Calculation:
+•	Implement a method to calculate the length of the longest substring without repeating characters.
+•	A substring is a contiguous sequence of characters within the string.
+Sample o/p:
+1. Enter the string: abcabcbb
+            Length of the longest substring without repeating characters: 3
+
+         2. Enter the string: abcdefghhhhh
+    Length of the longest substring without repeating characters: 8
+import java.util.*;
+
+public class LongestSubstring {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the string: ");
+        String input = scanner.nextLine();
+
+        int length = findLongestSubstringLength(input);
+
+        System.out.println("Length of the longest substring without repeating characters: " + length);
+        
+        scanner.close();
+    }
+
+    public static int findLongestSubstringLength(String s) {
+        Map<Character, Integer> charIndexMap = new HashMap<>();
+        int maxLength = 0;
+        int start = 0;
+
+        for (int end = 0; end < s.length(); end++) {
+            char currentChar = s.charAt(end);
+
+            if (charIndexMap.containsKey(currentChar)) {
+                start = Math.max(charIndexMap.get(currentChar) + 1, start);
+            }
+
+            charIndexMap.put(currentChar, end);
+            maxLength = Math.max(maxLength, end - start + 1);
+        }
+
+        return maxLength;
+    }
+}
+
+
+
+19. Write a Java program for user defined excision for valid email address.
+Program should check that the user has entered a valid email address which should contain ‘@’ and ‘.’ Otherwise it has to raise user defined exception InvalidEmailException . Checks if the email contains '@' and '.', and if '@' comes before '.'. If these conditions are met, it considers the email address valid; otherwise, it's considered invalid.
+ 
+
+import java.util.Scanner;
+
+// User-defined exception for invalid email
+class InvalidEmailException extends Exception {
+    public InvalidEmailException(String message) {
+        super(message);
+    }
+}
+
+public class EmailValidator {
+
+    // Method to validate email address
+    public static void validateEmail(String email) throws InvalidEmailException {
+        if (email == null || !email.contains("@") || !email.contains(".")) {
+            throw new InvalidEmailException("Email must contain '@' and '.'");
+        }
+        int atIndex = email.indexOf('@');
+        int dotIndex = email.indexOf('.');
+        if (atIndex > dotIndex || atIndex == -1 || dotIndex == -1) {
+            throw new InvalidEmailException("Invalid email format. '@' should come before '.'");
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter an email address: ");
+        String email = scanner.nextLine();
+
+        try {
+            validateEmail(email);
+            System.out.println("Email address is valid.");
+        } catch (InvalidEmailException e) {
+            System.out.println("InvalidEmailException: " + e.getMessage());
+        }
+
+        scanner.close();
+    }
+}
+
+
+
+20. Develop a Banking System in Java with abstraction and interfaces for security and flexibility. Implement SavingsAccount and CheckingAccount classes adhering to the BankingAccount interface. Allow users to create accounts, deposit, withdraw, transfer funds, and view transactions. 
+Sample Input:
+ 
+Sample Output:
+ 
+
+import java.util.*;
+
+// BankingAccount Interface
+interface BankingAccount {
+    void deposit(double amount);
+    void withdraw(double amount);
+    void transfer(BankingAccount targetAccount, double amount);
+    double getBalance();
+    String getAccountNumber();
+    List<String> getTransactionHistory();
+}
+
+// AbstractBankingAccount Class
+abstract class AbstractBankingAccount implements BankingAccount {
+    protected String accountNumber;
+    protected double balance;
+    protected List<String> transactionHistory;
+
+    public AbstractBankingAccount(String accountNumber, double initialDeposit) {
+        this.accountNumber = accountNumber;
+        this.balance = initialDeposit;
+        this.transactionHistory = new ArrayList<>();
+        addTransaction("Account created with initial deposit: $" + initialDeposit);
+    }
+
+    @Override
+    public void deposit(double amount) {
+        balance += amount;
+        addTransaction("Deposit: $" + amount);
+    }
+
+    @Override
+    public void withdraw(double amount) {
+        if (balance >= amount) {
+            balance -= amount;
+            addTransaction("Withdrawal: $" + amount);
+        } else {
+            System.out.println("Insufficient funds.");
+        }
+    }
+
+    @Override
+    public void transfer(BankingAccount targetAccount, double amount) {
+        if (balance >= amount) {
+            balance -= amount;
+            targetAccount.deposit(amount);
+            addTransaction("Transfer to Account " + targetAccount.getAccountNumber() + ": $" + amount);
+        } else {
+            System.out.println("Insufficient funds.");
+        }
+    }
+
+    @Override
+    public double getBalance() {
+        return balance;
+    }
+
+    @Override
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    @Override
+    public List<String> getTransactionHistory() {
+        return transactionHistory;
+    }
+
+    protected void addTransaction(String transaction) {
+        transactionHistory.add(transaction);
+    }
+}
+
+// SavingsAccount Class
+class SavingsAccount extends AbstractBankingAccount {
+    public SavingsAccount(String accountNumber, double initialDeposit) {
+        super(accountNumber, initialDeposit);
+    }
+}
+
+// CheckingAccount Class
+class CheckingAccount extends AbstractBankingAccount {
+    public CheckingAccount(String accountNumber, double initialDeposit) {
+        super(accountNumber, initialDeposit);
+    }
+}
+
+// BankingSystem Class
+public class BankingSystem {
+    private Map<String, BankingAccount> accounts = new HashMap<>();
+    private Scanner scanner = new Scanner(System.in);
+    private int nextAccountNumber = 1;
+
+    public static void main(String[] args) {
+        BankingSystem bankingSystem = new BankingSystem();
+        bankingSystem.run();
+    }
+
+    public void run() {
+        while (true) {
+            System.out.println("1. Create Account");
+            System.out.println("2. Deposit");
+            System.out.println("3. Withdraw");
+            System.out.println("4. Transfer Funds");
+            System.out.println("5. View Transactions");
+            System.out.println("6. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = Integer.parseInt(scanner.nextLine());
+
+            switch (choice) {
+                case 1:
+                    createAccount();
+                    break;
+                case 2:
+                    deposit();
+                    break;
+                case 3:
+                    withdraw();
+                    break;
+                case 4:
+                    transferFunds();
+                    break;
+                case 5:
+                    viewTransactions();
+                    break;
+                case 6:
+                    System.out.println("Exiting...");
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+
+    private void createAccount() {
+        System.out.print("Enter account type (Savings/Checking): ");
+        String accountType = scanner.nextLine().toLowerCase();
+        System.out.print("Enter initial deposit amount: ");
+        double initialDeposit = Double.parseDouble(scanner.nextLine());
+
+        BankingAccount account = null;
+        String accountNumber = String.format("%09d", nextAccountNumber++);
+
+        if (accountType.equals("savings")) {
+            account = new SavingsAccount(accountNumber, initialDeposit);
+        } else if (accountType.equals("checking")) {
+            account = new CheckingAccount(accountNumber, initialDeposit);
+        } else {
+            System.out.println("Invalid account type. Account not created.");
+            return;
+        }
+
+        accounts.put(account.getAccountNumber(), account);
+        System.out.println("Account created successfully! Account Number: " + account.getAccountNumber());
+        System.out.println("Deposit successful. New balance: $" + account.getBalance());
+    }
+
+    private void deposit() {
+        BankingAccount account = getAccount();
+        if (account != null) {
+            System.out.print("Enter deposit amount: ");
+            double amount = Double.parseDouble(scanner.nextLine());
+            account.deposit(amount);
+            System.out.println("Deposit successful. New balance: $" + account.getBalance());
+        }
+    }
+
+    private void withdraw() {
+        BankingAccount account = getAccount();
+        if (account != null) {
+            System.out.print("Enter withdrawal amount: ");
+            double amount = Double.parseDouble(scanner.nextLine());
+            account.withdraw(amount);
+            System.out.println("Withdrawal successful. New balance: $" + account.getBalance());
+        }
+    }
+
+    private void transferFunds() {
+        System.out.print("Enter source account number: ");
+        String sourceAccountNumber = scanner.nextLine();
+        BankingAccount sourceAccount = accounts.get(sourceAccountNumber);
+
+        if (sourceAccount == null) {
+            System.out.println("Invalid source account number.");
+            return;
+        }
+
+        System.out.print("Enter target account number: ");
+        String targetAccountNumber = scanner.nextLine();
+        BankingAccount targetAccount = accounts.get(targetAccountNumber);
+
+        if (targetAccount == null) {
+            System.out.println("Invalid target account number.");
+            return;
+        }
+
+        System.out.print("Enter transfer amount: ");
+        double amount = Double.parseDouble(scanner.nextLine());
+        sourceAccount.transfer(targetAccount, amount);
+        System.out.println("Transfer successful.");
+    }
+
+    private void viewTransactions() {
+        BankingAccount account = getAccount();
+        if (account != null) {
+            System.out.println("Transaction History for Account " + account.getAccountNumber() + ":");
+            for (String transaction : account.getTransactionHistory()) {
+                System.out.println(transaction);
+            }
+        }
+    }
+
+    private BankingAccount getAccount() {
+        System.out.print("Enter account number: ");
+        String accountNumber = scanner.nextLine();
+        BankingAccount account = accounts.get(accountNumber);
+        if (account == null) {
+            System.out.println("Invalid account number.");
+        }
+        return account;
+    }
+}
+
+
+
+
+21. Design a system to manage a library's collection of books using collections. Create classes to represent books with attributes like title, author, ISBN, and availability status. Implement functionalities such as adding new books, borrowing books, returning books, searching for books by title or author, and displaying available books.
+//Library mananagement system
+
+import java.util.*;
+
+class Book {
+    private String title;
+    private String author;
+    private String isbn;
+    private boolean available;
+
+    public Book(String title, String author, String isbn) {
+        this.title = title;
+        this.author = author;
+        this.isbn = isbn;
+        this.available = true;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+
+    @Override
+    public String toString() {
+        return title + " by " + author + " (ISBN: " + isbn + ")";
+    }
+}
+
+class Library {
+    private List<Book> books;
+
+    public Library() {
+        books = new ArrayList<>();
+    }
+
+    public void addBook(Book book) {
+        books.add(book);
+    }
+
+    public String borrowBook(String title) {
+        for (Book book : books) {
+            if (book.getTitle().equalsIgnoreCase(title) && book.isAvailable()) {
+                book.setAvailable(false);
+                return "You have borrowed: " + book.getTitle();
+            }
+        }
+        return "Book not available.";
+    }
+
+    public String returnBook(String title) {
+        for (Book book : books) {
+            if (book.getTitle().equalsIgnoreCase(title) && !book.isAvailable()) {
+                book.setAvailable(true);
+                return "You have returned: " + book.getTitle();
+            }
+        }
+        return "Book not found or already returned.";
+    }
+
+    public List<Book> searchByTitle(String title) {
+        List<Book> foundBooks = new ArrayList<>();
+        for (Book book : books) {
+            if (book.getTitle().toLowerCase().contains(title.toLowerCase())) {
+                foundBooks.add(book);
+            }
+        }
+        return foundBooks;
+    }
+
+    public List<Book> searchByAuthor(String author) {
+        List<Book> foundBooks = new ArrayList<>();
+        for (Book book : books) {
+            if (book.getAuthor().toLowerCase().contains(author.toLowerCase())) {
+                foundBooks.add(book);
+            }
+        }
+        return foundBooks;
+    }
+
+    public List<Book> displayAvailableBooks() {
+        List<Book> availableBooks = new ArrayList<>();
+        for (Book book : books) {
+            if (book.isAvailable()) {
+                availableBooks.add(book);
+            }
+        }
+        return availableBooks;
+    }
+}
+
+public class LibrarySystem {
+    public static void main(String[] args) {
+        Library library = new Library();
+
+        Book book1 = new Book("Harry Potter and the Philosopher's Stone", "J.K. Rowling", "9780747532743");
+        Book book2 = new Book("The Great Gatsby", "F. Scott Fitzgerald", "9780743273565");
+        Book book3 = new Book("To Kill a Mockingbird", "Harper Lee", "9780061120084");
+
+        library.addBook(book1);
+        library.addBook(book2);
+        library.addBook(book3);
+
+        System.out.println(library.borrowBook("To Kill a Mockingbird"));
+        System.out.println(library.borrowBook("To Kill a Mockingbird"));  // Trying to borrow the same book again
+
+        System.out.println(library.returnBook("To Kill a Mockingbird"));
+
+        System.out.println(library.searchByTitle("Harry Potter"));
+        System.out.println(library.searchByAuthor("J.K. Rowling"));
+        System.out.println(library.displayAvailableBooks());
+    }
+}
+
+
+
+
+22. Build an online shopping cart system where users can add, remove, and purchase items. Define an interface named Purchasable with methods like addItem(), removeItem(), and calculateTotalPrice(). Implement this interface in classes representing different types of items such as Electronics, Clothing, and Books. Develop a shopping cart manager class to manage user interactions and handle the purchase process.
+import java.util.ArrayList;
+import java.util.List;
+
+// Define the Purchasable interface
+interface Purchasable {
+    void addItem(int quantity);
+    void removeItem(int quantity);
+    double calculateTotalPrice();
+    String getItemDetails();
+}
+
+// Electronics class implementing the Purchasable interface
+class Electronics implements Purchasable {
+    private String name;
+    private double price;
+    private int quantity;
+
+    public Electronics(String name, double price) {
+        this.name = name;
+        this.price = price;
+        this.quantity = 0;
+    }
+
+    @Override
+    public void addItem(int quantity) {
+        this.quantity += quantity;
+        System.out.println(quantity + " " + name + "(s) added to the cart.");
+    }
+
+    @Override
+    public void removeItem(int quantity) {
+        if (this.quantity >= quantity) {
+            this.quantity -= quantity;
+            System.out.println(quantity + " " + name + "(s) removed from the cart.");
+        } else {
+            System.out.println("Cannot remove " + quantity + " " + name + "(s). Only " + this.quantity + " in the cart.");
+        }
+    }
+
+    @Override
+    public double calculateTotalPrice() {
+        return this.quantity * this.price;
+    }
+
+    @Override
+    public String getItemDetails() {
+        return name + ": $" + price + " x " + quantity + " = $" + calculateTotalPrice();
+    }
+}
+
+// Clothing class implementing the Purchasable interface
+class Clothing implements Purchasable {
+    private String name;
+    private double price;
+    private int quantity;
+
+    public Clothing(String name, double price) {
+        this.name = name;
+        this.price = price;
+        this.quantity = 0;
+    }
+
+    @Override
+    public void addItem(int quantity) {
+        this.quantity += quantity;
+        System.out.println(quantity + " " + name + "(s) added to the cart.");
+    }
+
+    @Override
+    public void removeItem(int quantity) {
+        if (this.quantity >= quantity) {
+            this.quantity -= quantity;
+            System.out.println(quantity + " " + name + "(s) removed from the cart.");
+        } else {
+            System.out.println("Cannot remove " + quantity + " " + name + "(s). Only " + this.quantity + " in the cart.");
+        }
+    }
+
+    @Override
+    public double calculateTotalPrice() {
+        return this.quantity * this.price;
+    }
+
+    @Override
+    public String getItemDetails() {
+        return name + ": $" + price + " x " + quantity + " = $" + calculateTotalPrice();
+    }
+}
+
+// Book class implementing the Purchasable interface
+class Book implements Purchasable {
+    private String title;
+    private double price;
+    private int quantity;
+
+    public Book(String title, double price) {
+        this.title = title;
+        this.price = price;
+        this.quantity = 0;
+    }
+
+    @Override
+    public void addItem(int quantity) {
+        this.quantity += quantity;
+        System.out.println(quantity + " " + title + "(s) added to the cart.");
+    }
+
+    @Override
+    public void removeItem(int quantity) {
+        if (this.quantity >= quantity) {
+            this.quantity -= quantity;
+            System.out.println(quantity + " " + title + "(s) removed from the cart.");
+        } else {
+            System.out.println("Cannot remove " + quantity + " " + title + "(s). Only " + this.quantity + " in the cart.");
+        }
+    }
+
+    @Override
+    public double calculateTotalPrice() {
+        return this.quantity * this.price;
+    }
+
+    @Override
+    public String getItemDetails() {
+        return title + ": $" + price + " x " + quantity + " = $" + calculateTotalPrice();
+    }
+}
+
+// ShoppingCartManager class to manage the shopping cart
+public class ShoppingCartManager {
+    private List<Purchasable> cart;
+
+    public ShoppingCartManager() {
+        cart = new ArrayList<>();
+    }
+
+    public void addItemToCart(Purchasable item, int quantity) {
+        item.addItem(quantity);
+        if (!cart.contains(item)) {
+            cart.add(item);
+        }
+    }
+
+    public void removeItemFromCart(Purchasable item, int quantity) {
+        item.removeItem(quantity);
+        if (item.calculateTotalPrice() == 0) {
+            cart.remove(item);
+        }
+    }
+
+    public void displayCartItems() {
+        if (cart.isEmpty()) {
+            System.out.println("The cart is empty.");
+        } else {
+            System.out.println("Items in the cart:");
+            for (Purchasable item : cart) {
+                System.out.println(item.getItemDetails());
+            }
+        }
+    }
+
+    public void checkout() {
+        if (cart.isEmpty()) {
+            System.out.println("The cart is empty. Nothing to checkout.");
+        } else {
+            double total = 0;
+            System.out.println("Checking out the following items:");
+            for (Purchasable item : cart) {
+                System.out.println(item.getItemDetails());
+                total += item.calculateTotalPrice();
+            }
+            System.out.println("Total amount to be paid: $" + total);
+            cart.clear();
+        }
+    }
+
+    public static void main(String[] args) {
+        ShoppingCartManager manager = new ShoppingCartManager();
+
+        Electronics laptop = new Electronics("Laptop", 800);
+        Clothing tshirt = new Clothing("T-Shirt", 20);
+        Book novel = new Book("Novel", 15);
+
+        manager.addItemToCart(laptop, 1);
+        manager.addItemToCart(tshirt, 3);
+        manager.addItemToCart(novel, 2);
+
+        manager.displayCartItems();
+
+        manager.removeItemFromCart(tshirt, 1);
+        manager.displayCartItems();
+
+        manager.checkout();
+        manager.displayCartItems();
+    }
+}
+
+
+23.   Implement a Student class with attributes such as ID, name, age, gender, grade, and contact information using ArrayList .Create a menu-driven program with an administrator login feature that allows authorized users to:
+A.	 Add a new student to the database.
+B.	Remove a student from the database by their ID.
+C.	 Update student information (name, age, grade, etc.).
+D.	Display all students in the database.
+E.	 Search for a student by their ID, name, grade, or any other criteria.
+F.	Implement error handling and validation for user inputs, such as invalid IDs, duplicate entries, etc. 
+G.	import java.util.ArrayList;
+import java.util.Scanner;
+
+// Define the Student class
+class Student {
+    private int id;
+    private String name;
+    private int age;
+    private String gender;
+    private String grade;
+    private String contactInfo;
+
+    public Student(int id, String name, int age, String gender, String grade, String contactInfo) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+        this.grade = grade;
+        this.contactInfo = contactInfo;
+    }
+
+    public int getId() { return id; }
+    public String getName() { return name; }
+    public int getAge() { return age; }
+    public String getGender() { return gender; }
+    public String getGrade() { return grade; }
+    public String getContactInfo() { return contactInfo; }
+
+    public void setName(String name) { this.name = name; }
+    public void setAge(int age) { this.age = age; }
+    public void setGender(String gender) { this.gender = gender; }
+    public void setGrade(String grade) { this.grade = grade; }
+    public void setContactInfo(String contactInfo) { this.contactInfo = contactInfo; }
+
+    @Override
+    public String toString() {
+        return "ID: " + id + ", Name: " + name + ", Age: " + age + ", Gender: " + gender + ", Grade: " + grade + ", Contact Info: " + contactInfo;
+    }
+}
+
+// Define the StudentManagementSystem class
+public class StudentManagementSystem {
+    private static ArrayList<Student> students = new ArrayList<>();
+    private static Scanner scanner = new Scanner(System.in);
+    private static String adminUsername = "admin";
+    private static String adminPassword = "password";
+
+    public static void main(String[] args) {
+        if (adminLogin()) {
+            menu();
+        } else {
+            System.out.println("Invalid login credentials.");
+        }
+    }
+
+    private static boolean adminLogin() {
+        System.out.print("Enter username: ");
+        String username = scanner.nextLine();
+        System.out.print("Enter password: ");
+        String password = scanner.nextLine();
+        return username.equals(adminUsername) && password.equals(adminPassword);
+    }
+
+    private static void menu() {
+        while (true) {
+            System.out.println("\nMenu:");
+            System.out.println("A. Add a new student");
+            System.out.println("B. Remove a student by ID");
+            System.out.println("C. Update student information");
+            System.out.println("D. Display all students");
+            System.out.println("E. Search for a student");
+            System.out.println("F. Exit");
+            System.out.print("Choose an option: ");
+            String choice = scanner.nextLine().toUpperCase();
+
+            switch (choice) {
+                case "A":
+                    addStudent();
+                    break;
+                case "B":
+                    removeStudent();
+                    break;
+                case "C":
+                    updateStudent();
+                    break;
+                case "D":
+                    displayAllStudents();
+                    break;
+                case "E":
+                    searchStudent();
+                    break;
+                case "F":
+                    System.out.println("Exiting...");
+                    return;
+                default:
+                    System.out.println("Invalid option. Please try again.");
+            }
+        }
+    }
+
+    private static void addStudent() {
+        System.out.print("Enter ID: ");
+        int id = Integer.parseInt(scanner.nextLine());
+        if (getStudentById(id) != null) {
+            System.out.println("Student with this ID already exists.");
+            return;
+        }
+        System.out.print("Enter name: ");
+        String name = scanner.nextLine();
+        System.out.print("Enter age: ");
+        int age = Integer.parseInt(scanner.nextLine());
+        System.out.print("Enter gender: ");
+        String gender = scanner.nextLine();
+        System.out.print("Enter grade: ");
+        String grade = scanner.nextLine();
+        System.out.print("Enter contact info: ");
+        String contactInfo = scanner.nextLine();
+
+        students.add(new Student(id, name, age, gender, grade, contactInfo));
+        System.out.println("Student added successfully.");
+    }
+
+    private static void removeStudent() {
+        System.out.print("Enter ID of the student to remove: ");
+        int id = Integer.parseInt(scanner.nextLine());
+        Student student = getStudentById(id);
+        if (student == null) {
+            System.out.println("Student not found.");
+        } else {
+            students.remove(student);
+            System.out.println("Student removed successfully.");
+        }
+    }
+
+    private static void updateStudent() {
+        System.out.print("Enter ID of the student to update: ");
+        int id = Integer.parseInt(scanner.nextLine());
+        Student student = getStudentById(id);
+        if (student == null) {
+            System.out.println("Student not found.");
+            return;
+        }
+
+        System.out.print("Enter new name (leave blank to keep current): ");
+        String name = scanner.nextLine();
+        if (!name.isEmpty()) {
+            student.setName(name);
+        }
+
+        System.out.print("Enter new age (leave blank to keep current): ");
+        String age = scanner.nextLine();
+        if (!age.isEmpty()) {
+            student.setAge(Integer.parseInt(age));
+        }
+
+        System.out.print("Enter new gender (leave blank to keep current): ");
+        String gender = scanner.nextLine();
+        if (!gender.isEmpty()) {
+            student.setGender(gender);
+        }
+
+        System.out.print("Enter new grade (leave blank to keep current): ");
+        String grade = scanner.nextLine();
+        if (!grade.isEmpty()) {
+            student.setGrade(grade);
+        }
+
+        System.out.print("Enter new contact info (leave blank to keep current): ");
+        String contactInfo = scanner.nextLine();
+        if (!contactInfo.isEmpty()) {
+            student.setContactInfo(contactInfo);
+        }
+
+        System.out.println("Student information updated successfully.");
+    }
+
+    private static void displayAllStudents() {
+        if (students.isEmpty()) {
+            System.out.println("No students in the database.");
+        } else {
+            for (Student student : students) {
+                System.out.println(student);
+            }
+        }
+    }
+
+    private static void searchStudent() {
+        System.out.print("Enter search criteria (ID, name, grade): ");
+        String criteria = scanner.nextLine().toLowerCase();
+        boolean found = false;
+        for (Student student : students) {
+            if (String.valueOf(student.getId()).equals(criteria) ||
+                    student.getName().toLowerCase().contains(criteria) ||
+                    student.getGrade().toLowerCase().contains(criteria)) {
+                System.out.println(student);
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("No students found with the given criteria.");
+        }
+    }
+
+    private static Student getStudentById(int id) {
+        for (Student student : students) {
+            if (student.getId() == id) {
+                return student;
+            }
+        }
+        return null;
+    }
+}
+
+
+24. Develop a vehicle rental system where customers can rent different types of vehicles. Define an interface called Rentable with methods like rent(), returnVehicle(), and calculateRentalCost(). Implement this interface in classes representing different types of vehicles such as Car, Motorcycle, and Bicycle. Create a rental manager class to handle the renting and returning of vehicles.
+
+import java.util.ArrayList;
+import java.util.List;
+
+// Define the Rentable interface
+interface Rentable {
+    void rent();
+    void returnVehicle();
+    double calculateRentalCost(int days);
+    String getVehicleDetails();
+}
+
+// Car class implementing the Rentable interface
+class Car implements Rentable {
+    private String model;
+    private double dailyRate;
+    private boolean isRented;
+
+    public Car(String model, double dailyRate) {
+        this.model = model;
+        this.dailyRate = dailyRate;
+        this.isRented = false;
+    }
+
+    @Override
+    public void rent() {
+        if (!isRented) {
+            isRented = true;
+            System.out.println(model + " has been rented.");
+        } else {
+            System.out.println(model + " is already rented.");
+        }
+    }
+
+    @Override
+    public void returnVehicle() {
+        if (isRented) {
+            isRented = false;
+            System.out.println(model + " has been returned.");
+        } else {
+            System.out.println(model + " was not rented.");
+        }
+    }
+
+    @Override
+    public double calculateRentalCost(int days) {
+        return days * dailyRate;
+    }
+
+    @Override
+    public String getVehicleDetails() {
+        return "Car: " + model + ", Daily Rate: $" + dailyRate + ", Rented: " + isRented;
+    }
+}
+
+// Motorcycle class implementing the Rentable interface
+class Motorcycle implements Rentable {
+    private String model;
+    private double dailyRate;
+    private boolean isRented;
+
+    public Motorcycle(String model, double dailyRate) {
+        this.model = model;
+        this.dailyRate = dailyRate;
+        this.isRented = false;
+    }
+
+    @Override
+    public void rent() {
+        if (!isRented) {
+            isRented = true;
+            System.out.println(model + " has been rented.");
+        } else {
+            System.out.println(model + " is already rented.");
+        }
+    }
+
+    @Override
+    public void returnVehicle() {
+        if (isRented) {
+            isRented = false;
+            System.out.println(model + " has been returned.");
+        } else {
+            System.out.println(model + " was not rented.");
+        }
+    }
+
+    @Override
+    public double calculateRentalCost(int days) {
+        return days * dailyRate;
+    }
+
+    @Override
+    public String getVehicleDetails() {
+        return "Motorcycle: " + model + ", Daily Rate: $" + dailyRate + ", Rented: " + isRented;
+    }
+}
+
+// Bicycle class implementing the Rentable interface
+class Bicycle implements Rentable {
+    private String model;
+    private double dailyRate;
+    private boolean isRented;
+
+    public Bicycle(String model, double dailyRate) {
+        this.model = model;
+        this.dailyRate = dailyRate;
+        this.isRented = false;
+    }
+
+    @Override
+    public void rent() {
+        if (!isRented) {
+            isRented = true;
+            System.out.println(model + " has been rented.");
+        } else {
+            System.out.println(model + " is already rented.");
+        }
+    }
+
+    @Override
+    public void returnVehicle() {
+        if (isRented) {
+            isRented = false;
+            System.out.println(model + " has been returned.");
+        } else {
+            System.out.println(model + " was not rented.");
+        }
+    }
+
+    @Override
+    public double calculateRentalCost(int days) {
+        return days * dailyRate;
+    }
+
+    @Override
+    public String getVehicleDetails() {
+        return "Bicycle: " + model + ", Daily Rate: $" + dailyRate + ", Rented: " + isRented;
+    }
+}
+
+// RentalManager class to manage the rental process
+class RentalManager {
+    private List<Rentable> vehicles;
+
+    public RentalManager() {
+        vehicles = new ArrayList<>();
+    }
+
+    public void addVehicle(Rentable vehicle) {
+        vehicles.add(vehicle);
+        System.out.println("Added: " + vehicle.getVehicleDetails());
+    }
+
+    public void rentVehicle(Rentable vehicle) {
+        vehicle.rent();
+    }
+
+    public void returnVehicle(Rentable vehicle) {
+        vehicle.returnVehicle();
+    }
+
+    public void displayVehicles() {
+        for (Rentable vehicle : vehicles) {
+            System.out.println(vehicle.getVehicleDetails());
+        }
+    }
+
+    public static void main(String[] args) {
+        RentalManager manager = new RentalManager();
+
+        Car car = new Car("Tata Nano", 50);
+        Motorcycle motorcycle = new Motorcycle("Hero Splendor", 30);
+        Bicycle bicycle = new Bicycle("B-Twin", 10);
+
+        manager.addVehicle(car);
+        manager.addVehicle(motorcycle);
+        manager.addVehicle(bicycle);
+
+        manager.displayVehicles();
+
+        System.out.println("\nRenting vehicles:");
+        manager.rentVehicle(car);
+        manager.rentVehicle(motorcycle);
+
+        manager.displayVehicles();
+
+        System.out.println("\nReturning vehicles:");
+        manager.returnVehicle(car);
+        manager.returnVehicle(motorcycle);
+
+        manager.displayVehicles();
+    }
+}
+
+
+
+
